@@ -3,9 +3,7 @@
 PROGNAME := main
 	
 CPPFLAGS := -DUSE_BOOST
-	
 CFLAGS := -O3
-	
 CXXFLAGS += -O3 -std=c++11
 	
 LDFLAGS += -g
@@ -23,18 +21,13 @@ BOOST_MODULES = \
 	timer
 	
 BOOST_MODULES_TYPE := -mt
-	
 BOOST_MODULES_LIBS := $(addsuffix $(BOOT_MODULES_TYPE),$(BOOST_MODULES))
-	
 BOOST_LDFLAGS := $(addprefix -lboost_,$(BOOST_MODULES_LIBS))
-	
 CPPFLAGS += $(BOOST_CPPFLAGS)
 LDFLAGS += $(BOOST_LDFLAGS)
 	
 SOURCES = $(wildcard *.cpp)
-
 HEADERS = $(wildcard *.h)
-	
 OBJECTS = $(SOURCES:%.cpp=build/%.o)
 	
 all : $(PROGNAME)
