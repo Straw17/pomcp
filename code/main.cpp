@@ -16,15 +16,17 @@ int main(int argc, char* argv[])
 	MCTS::PARAMS searchParams;
 	EXPERIMENT::PARAMS expParams;
 	SIMULATOR::KNOWLEDGE knowledge;
-	knowledge.RolloutLevel = SIMULATOR::KNOWLEDGE::LEGAL;
+	knowledge.RolloutLevel = SIMULATOR::KNOWLEDGE::LEGAL; // LEGAL to use no extra knowledge, SMART to use preferred actions
 	string problem, policy, horizonString;
 	string outputfile;
-    
-        string banditArmCapacity, banditBetaPriorString, banditConvergenceEpsilonString;
+
+    string banditArmCapacity, banditBetaPriorString, banditConvergenceEpsilonString;
 	int size, number, treeknowledge = 1, rolloutknowledge = 1, smarttreecount = 10;
 	problem = argv[1];
     horizonString = argv[2];
 	banditBetaPriorString = argv[3];
+
+	// set up real and simulated version of problem
 	SIMULATOR* real = 0;
 	SIMULATOR* simulator = 0;
 	if(problem == "battleship")
@@ -72,20 +74,26 @@ int main(int argc, char* argv[])
 		cout << "Unknown problem" << endl;
 		exit(1);
 	}
-    searchParams = MCTS::PARAMS();
+    
+	// set up parameters for search
+	searchParams = MCTS::PARAMS();
 	expParams = EXPERIMENT::PARAMS();
-    outputfile = problem + "_POSTS_legal_prior-"+banditBetaPriorString+"_horizon-"+horizonString+".txt";
+	searchParams.MaxDepth = stoi(horizonString); // maximum search depth
+    simulator->SetKnowledge(knowledge);
+
+	// configure output file
+    outputfile = "output/" + problem;
 	if(problem == "rocksample") 
 	{
         string problemSize = argv[4];
-		outputfile += ".";
 		outputfile += problemSize;
-		cout << "OUTPUT: " << outputfile << endl;
 	}
-    searchParams.MaxDepth = stoi(horizonString);
-    simulator->SetKnowledge(knowledge);
+	outputfile += "_POSTS_legal_prior-"+banditBetaPriorString+"_horizon-"+horizonString+".txt";
+    
+	// run experiment with given problem and parameters
 	EXPERIMENT experiment(*real,*simulator, outputfile, expParams, searchParams);
 	experiment.DiscountedReturn();
+
 	delete real;
 	delete simulator;
 	return 0;

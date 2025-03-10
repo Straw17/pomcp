@@ -9,7 +9,7 @@ CFLAGS := -Wall -O0
 CXXFLAGS += -Wall -O0 -std=c++11
 	
 LDFLAGS += -g
-LDFLAGS += -L/home/p/phant/boost_1_65_1/stage/lib
+LDFLAGS += -L/usr/include/boost/
 
 BOOST_MODULES = \
 	program_options	\
@@ -32,19 +32,19 @@ CPPFLAGS += $(BOOST_CPPFLAGS)
 LDFLAGS += $(BOOST_LDFLAGS)
 	
 SOURCES = $(wildcard *.cpp)
-	
+
 HEADERS = $(wildcard %.h)
 	
-OBJECTS = $(SOURCES:%.cpp=%.o)
+OBJECTS = $(SOURCES:%.cpp=build/%.o)
 	
 all : $(PROGNAME)
 	
 $(PROGNAME) : $(OBJECTS) Makefile
 	g++ -o $@ $(LDFLAGS) $(OBJECTS)
 	
-%.o : %.cpp $(HEADERS) Makefile
+build/%.o : %.cpp $(HEADERS) Makefile
 	g++ $(CXXFLAGS) $(CPPFLAGS) -c $(OUTPUT_OPTION) $<
 	
 clean :
 	@echo "Clean."
-	-rm -f *.o $(PROGNAME)
+	-rm -f build/*.o $(PROGNAME)
