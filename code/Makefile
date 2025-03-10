@@ -4,9 +4,9 @@ PROGNAME := main
 	
 CPPFLAGS := -DUSE_BOOST
 	
-CFLAGS := -Wall -O0
+CFLAGS := -O3
 	
-CXXFLAGS += -Wall -O0 -std=c++11
+CXXFLAGS += -O3 -std=c++11
 	
 LDFLAGS += -g
 LDFLAGS += -L/usr/include/boost/
