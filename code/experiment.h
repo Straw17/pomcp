@@ -5,7 +5,6 @@
 #include "simulator.h"
 #include "statistic.h"
 #include <fstream>
-#include "planner.h"
 
 //----------------------------------------------------------------------------
 
@@ -48,7 +47,6 @@ public:
 		double Accuracy;
 		int UndiscountedHorizon;
 		bool AutoExploration;
-		bool usePOSTS;
 	};
 
 	EXPERIMENT(const SIMULATOR& real, const SIMULATOR& simulator,

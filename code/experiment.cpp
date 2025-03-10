@@ -14,8 +14,7 @@ EXPERIMENT::PARAMS::PARAMS()
 	TransformAttempts(1000),
 	Accuracy(0.01),
 	UndiscountedHorizon(1000),
-	AutoExploration(true),
-	usePOSTS(false)
+	AutoExploration(true)
 {
 }
 
@@ -43,14 +42,7 @@ void EXPERIMENT::Run()
 	boost::timer timer;
 
 	MCTS* mcts = NULL;
-	if(ExpParams.usePOSTS)
-	{
-		mcts = new POSTS(Simulator, SearchParams);
-	}
-	else
-	{
-		mcts = new MCTS(Simulator, SearchParams);
-	}
+	mcts = new MCTS(Simulator, SearchParams);
 	double undiscountedReturn = 0.0;
 	double discountedReturn = 0.0;
 	double discount = 1.0;

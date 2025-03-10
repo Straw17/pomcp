@@ -88,7 +88,7 @@ int main(int argc, char* argv[])
         string problemSize = argv[4];
 		outputfile += problemSize;
 	}
-	outputfile += "_POSTS_legal_prior-"+banditBetaPriorString+"_horizon-"+horizonString+".txt";
+	outputfile += "_"+banditBetaPriorString+"_horizon-"+horizonString+".txt";
     
 	// run experiment with given problem and parameters
 	EXPERIMENT experiment(*real,*simulator, outputfile, expParams, searchParams);

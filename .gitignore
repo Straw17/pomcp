@@ -1,2 +1,4 @@
+code/build/*
 code/output/*
 .vscode/settings.json
+code/main
