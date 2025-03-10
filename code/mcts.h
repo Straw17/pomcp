@@ -22,9 +22,6 @@ public:
 		int MaxAttempts;
 		int ExpandCount;
 		int EnsembleSize;
-        int BanditArmCapacity;
-        double BanditConvergenceEpsilon;
-		int BanditBetaPrior;
 		double ExplorationConstant;
 		bool UseRave;
 		double RaveDiscount;

@@ -16,7 +16,6 @@ struct RESULTS
 	STATISTIC Reward;
 	STATISTIC DiscountedReturn;
 	STATISTIC UndiscountedReturn;
-    STATISTIC MaxNumberOfBandits;
 };
 
 inline void RESULTS::Clear()

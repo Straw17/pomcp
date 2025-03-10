@@ -20,11 +20,11 @@ int main(int argc, char* argv[])
 	string problem, policy, horizonString;
 	string outputfile;
 
-    string banditArmCapacity, banditBetaPriorString, banditConvergenceEpsilonString;
+    string testName;
 	int size, number, treeknowledge = 1, rolloutknowledge = 1, smarttreecount = 10;
 	problem = argv[1];
     horizonString = argv[2];
-	banditBetaPriorString = argv[3];
+	testName = argv[3];
 
 	// set up real and simulated version of problem
 	SIMULATOR* real = 0;
@@ -88,7 +88,7 @@ int main(int argc, char* argv[])
         string problemSize = argv[4];
 		outputfile += problemSize;
 	}
-	outputfile += "_"+banditBetaPriorString+"_horizon-"+horizonString+".txt";
+	outputfile += "_"+testName+"_horizon-"+horizonString+".txt";
     
 	// run experiment with given problem and parameters
 	EXPERIMENT experiment(*real,*simulator, outputfile, expParams, searchParams);

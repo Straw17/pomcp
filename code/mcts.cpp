@@ -19,8 +19,6 @@ MCTS::PARAMS::PARAMS()
 	MaxAttempts(0),
 	ExpandCount(1),
 	EnsembleSize(4),
-    BanditArmCapacity(10),
-    BanditConvergenceEpsilon(0.01),
 	ExplorationConstant(1),
 	UseRave(false),
 	RaveDiscount(1.0),

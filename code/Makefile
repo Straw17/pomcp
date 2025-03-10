@@ -33,7 +33,7 @@ LDFLAGS += $(BOOST_LDFLAGS)
 	
 SOURCES = $(wildcard *.cpp)
 
-HEADERS = $(wildcard %.h)
+HEADERS = $(wildcard *.h)
 	
 OBJECTS = $(SOURCES:%.cpp=build/%.o)
 	
