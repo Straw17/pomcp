@@ -17,22 +17,27 @@ class SIMULATOR
 {
 public:
 
+	// how much knowledge the simulator uses
 	struct KNOWLEDGE
 	{
 		enum
 		{
-			PURE,
-			LEGAL,
-			SMART,
-			NUM_LEVELS
+			PURE = 0,
+			LEGAL = 1, // only legal actions
+			SMART = 2, // preferred actions
+			NUM_LEVELS = 3
 		};
 
+		// construct with defaults
 		KNOWLEDGE();
 
-		int RolloutLevel;
-		int TreeLevel;
-		int SmartTreeCount;
-		double SmartTreeValue;
+		// construct based on file
+		KNOWLEDGE(const std::string& filename);
+
+		int RolloutLevel; // knowledge level to use for rollouts
+		int TreeLevel; // knowledge level to use within the tree
+		int SmartTreeCount; // initial visit count for preferred nodes
+		double SmartTreeValue; // initial value for preferred nodes
 
 		int Level(int phase) const
 		{

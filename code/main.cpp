@@ -16,12 +16,11 @@ int main(int argc, char* argv[])
 	MCTS::PARAMS searchParams;
 	EXPERIMENT::PARAMS expParams;
 	SIMULATOR::KNOWLEDGE knowledge;
-	knowledge.RolloutLevel = SIMULATOR::KNOWLEDGE::LEGAL; // LEGAL to use no extra knowledge, SMART to use preferred actions
 	string problem, policy, horizonString;
 	string outputfile;
 
     string testName;
-	int size, number, treeknowledge = 1, rolloutknowledge = 1, smarttreecount = 10;
+	int size, number = 1;
 	problem = argv[1];
     horizonString = argv[2];
 	testName = argv[3];
@@ -78,6 +77,7 @@ int main(int argc, char* argv[])
 	// set up parameters for search
 	searchParams = MCTS::PARAMS("config/mcts_config.json");
 	expParams = EXPERIMENT::PARAMS("config/experiment_config.json");
+	knowledge = SIMULATOR::KNOWLEDGE("config/knowledge_config.json");
 	searchParams.MaxDepth = stoi(horizonString); // maximum search depth
     simulator->SetKnowledge(knowledge);
 

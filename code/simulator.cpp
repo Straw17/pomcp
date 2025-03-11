@@ -1,5 +1,7 @@
 #include "simulator.h"
 
+#include <boost/property_tree/json_parser.hpp>
+
 using namespace std;
 using namespace UTILS;
 
@@ -9,6 +11,19 @@ SIMULATOR::KNOWLEDGE::KNOWLEDGE()
 	SmartTreeCount(10),
 	SmartTreeValue(1.0)
 {
+}
+
+SIMULATOR::KNOWLEDGE::KNOWLEDGE(const std::string& filename) {
+	boost::property_tree::ptree pt;
+    
+    // Read the JSON file
+    boost::property_tree::read_json(filename, pt);
+    
+    // Load parameters from the property tree
+    RolloutLevel = pt.get<int>("RolloutLevel");
+    TreeLevel = pt.get<int>("TreeLevel");
+    SmartTreeCount = pt.get<int>("SmartTreeCount");
+    SmartTreeValue = pt.get<double>("SmartTreeValue");
 }
 
 SIMULATOR::STATUS::STATUS()

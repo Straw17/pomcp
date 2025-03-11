@@ -26,7 +26,7 @@ public:
 		int MaxAttempts; // maximum number of times we try to transform particles
 		int ExpandCount;
 		int EnsembleSize; // NEVER USED
-		double ExplorationConstant;
+		double ExplorationConstant; // difference between the highest and lowest rewards
 		bool UseRave;
 		double RaveDiscount;
 		double RaveConstant;
