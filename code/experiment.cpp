@@ -16,7 +16,8 @@ EXPERIMENT::PARAMS::PARAMS()
 	Accuracy(0.01),
 	UndiscountedHorizon(1000),
 	AutoExploration(true)
-{}
+{
+}
 
 EXPERIMENT::PARAMS::PARAMS(const std::string& filename) {
 	boost::property_tree::ptree pt;

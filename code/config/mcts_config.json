@@ -1,0 +1,16 @@
+{
+    "Verbose": 0,
+    "MaxDepth": 100,
+    "NumSimulations": 1000,
+    "NumStartStates": 1000,
+    "UseTransforms": true,
+    "NumTransforms": 0,
+    "MaxAttempts": 0,
+    "ExpandCount": 1,
+    "EnsembleSize": 4,
+    "ExplorationConstant": 1,
+    "UseRave": false,
+    "RaveDiscount": 1.0,
+    "RaveConstant": 0.01,
+    "DisableTree": false
+  }

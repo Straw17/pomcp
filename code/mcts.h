@@ -11,7 +11,11 @@ public:
 
 	struct PARAMS
 	{
+		// construct with defaults
 		PARAMS();
+
+		// construct based on file
+		PARAMS(const std::string& filename);
 
 		int Verbose;
 		int MaxDepth; // maximum tree depth (search horizon)

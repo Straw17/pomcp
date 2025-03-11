@@ -3,6 +3,7 @@
 #include <math.h>
 
 #include <algorithm>
+#include <boost/property_tree/json_parser.hpp>
 
 using namespace std;
 using namespace UTILS;
@@ -25,6 +26,29 @@ MCTS::PARAMS::PARAMS()
 	RaveConstant(0.01),
 	DisableTree(false)
 {
+}
+
+MCTS::PARAMS::PARAMS(const std::string& filename) {
+    boost::property_tree::ptree pt;
+    
+    // Read the JSON file
+    boost::property_tree::read_json(filename, pt);
+    
+    // Load parameters from the property tree
+    Verbose = pt.get<int>("Verbose");
+    MaxDepth = pt.get<int>("MaxDepth");
+    NumSimulations = pt.get<int>("NumSimulations");
+    NumStartStates = pt.get<int>("NumStartStates");
+    UseTransforms = pt.get<bool>("UseTransforms");
+    NumTransforms = pt.get<int>("NumTransforms");
+    MaxAttempts = pt.get<int>("MaxAttempts");
+    ExpandCount = pt.get<int>("ExpandCount");
+    EnsembleSize = pt.get<int>("EnsembleSize");
+    ExplorationConstant = pt.get<int>("ExplorationConstant");
+    UseRave = pt.get<bool>("UseRave");
+    RaveDiscount = pt.get<double>("RaveDiscount");
+    RaveConstant = pt.get<double>("RaveConstant");
+    DisableTree = pt.get<bool>("DisableTree");
 }
 
 MCTS::MCTS(const SIMULATOR& simulator, const PARAMS& params)
