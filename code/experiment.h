@@ -36,16 +36,17 @@ public:
 	{
 		PARAMS();
 
-		int NumRuns;
-		int NumSteps;
-		int SimSteps;
-		double TimeOut;
-		int MinDoubles, MaxDoubles;
-		int TransformDoubles;
-		int TransformAttempts;
-		double Accuracy;
-		int UndiscountedHorizon;
-		bool AutoExploration;
+		int NumRuns; // number of runs for each time setting
+		int NumSteps; // maximum number of steps for each run
+		int SimSteps; // NEVER USED
+		double TimeOut; // maximum time allowed
+		int MinDoubles; // lowest power of two # of simulations to test with (inclusive)
+		int MaxDoubles; // highest power of two # of simulations to test with (inclusive)
+		int TransformDoubles; // power of two fraction of particles that should be transformed (ex: -4 means 1/16 of particles are transformed)
+		int TransformAttempts; // how many times to try to transform before failing
+		double Accuracy; // smallest precision we care about - used to calculate horizon for discounted tasks
+		int UndiscountedHorizon; // used to calculate the horizon for undiscounted tasks
+		bool AutoExploration; // whether to set the exploration constant by finding a reward range
 	};
 
 	EXPERIMENT(const SIMULATOR& real, const SIMULATOR& simulator,

@@ -15,8 +15,7 @@ EXPERIMENT::PARAMS::PARAMS()
 	Accuracy(0.01),
 	UndiscountedHorizon(1000),
 	AutoExploration(true)
-{
-}
+{}
 
 EXPERIMENT::EXPERIMENT(const SIMULATOR& real,
 	const SIMULATOR& simulator, const string& outputFile,
@@ -164,10 +163,12 @@ void EXPERIMENT::DiscountedReturn()
 
 	for (int i = ExpParams.MinDoubles; i <= ExpParams.MaxDoubles; i++)
 	{
-		SearchParams.NumSimulations = 1 << i;
-		SearchParams.NumStartStates = 1 << i;
+		SearchParams.NumSimulations = 1 << i; // equivalent to 2**i
+		SearchParams.NumStartStates = 1 << i; 
+
+		// compute how many particles should be transformed
 		if (i + ExpParams.TransformDoubles >= 0)
-			SearchParams.NumTransforms = 1 << (i + ExpParams.TransformDoubles);
+			SearchParams.NumTransforms = 1 << (i + ExpParams.TransformDoubles); // equivalent to 2**(i + ExpParams.TransformDoubles)
 		else
 			SearchParams.NumTransforms = 1;
 		SearchParams.MaxAttempts = SearchParams.NumTransforms * ExpParams.TransformAttempts;

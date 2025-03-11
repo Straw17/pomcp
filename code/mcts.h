@@ -14,19 +14,19 @@ public:
 		PARAMS();
 
 		int Verbose;
-		int MaxDepth;
-		int NumSimulations;
-		int NumStartStates;
-		bool UseTransforms;
-		int NumTransforms;
-		int MaxAttempts;
+		int MaxDepth; // maximum tree depth (search horizon)
+		int NumSimulations; // number of simulations to perform
+		int NumStartStates; // number of initial start states to sample
+		bool UseTransforms; // whether or not to use transforms
+		int NumTransforms; // number of transformed particles we want to have
+		int MaxAttempts; // maximum number of times we try to transform particles
 		int ExpandCount;
-		int EnsembleSize;
+		int EnsembleSize; // NEVER USED
 		double ExplorationConstant;
 		bool UseRave;
 		double RaveDiscount;
 		double RaveConstant;
-		bool DisableTree;
+		bool DisableTree; // whether or not to use a basic monte carlo strategy (PO-rollout in the POMCP paper)
 	};
 
 	MCTS(const SIMULATOR& simulator, const PARAMS& params);
