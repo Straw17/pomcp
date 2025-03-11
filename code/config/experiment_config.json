@@ -1,0 +1,13 @@
+{
+    "NumRuns": 100,
+    "NumSteps": 100000,
+    "SimSteps": 1000,
+    "TimeOut": 43200,
+    "MinDoubles": 1,
+    "MaxDoubles": 14,
+    "TransformDoubles": -4,
+    "TransformAttempts": 1000,
+    "Accuracy": 0.01,
+    "UndiscountedHorizon": 1000,
+    "AutoExploration": true
+}

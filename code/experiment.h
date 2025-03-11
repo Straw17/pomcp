@@ -34,7 +34,11 @@ public:
 
 	struct PARAMS
 	{
+		// construct with defaults
 		PARAMS();
+
+		// construct based on file
+		PARAMS(const std::string& filename);
 
 		int NumRuns; // number of runs for each time setting
 		int NumSteps; // maximum number of steps for each run

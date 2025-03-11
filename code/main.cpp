@@ -77,7 +77,7 @@ int main(int argc, char* argv[])
     
 	// set up parameters for search
 	searchParams = MCTS::PARAMS();
-	expParams = EXPERIMENT::PARAMS();
+	expParams = EXPERIMENT::PARAMS("config/experiment_config.json");
 	searchParams.MaxDepth = stoi(horizonString); // maximum search depth
     simulator->SetKnowledge(knowledge);
 

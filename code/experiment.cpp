@@ -1,5 +1,6 @@
 #include "experiment.h"
 #include "boost/timer.hpp"
+#include <boost/property_tree/json_parser.hpp>
 
 using namespace std;
 
@@ -16,6 +17,26 @@ EXPERIMENT::PARAMS::PARAMS()
 	UndiscountedHorizon(1000),
 	AutoExploration(true)
 {}
+
+EXPERIMENT::PARAMS::PARAMS(const std::string& filename) {
+	boost::property_tree::ptree pt;
+        
+	// Read the JSON file
+	boost::property_tree::read_json(filename, pt);
+	
+	// Load parameters from the property tree
+	NumRuns = pt.get<int>("NumRuns");
+	NumSteps = pt.get<int>("NumSteps");
+	SimSteps = pt.get<int>("SimSteps");
+	TimeOut = pt.get<int>("TimeOut");
+	MinDoubles = pt.get<int>("MinDoubles");
+	MaxDoubles = pt.get<int>("MaxDoubles");
+	TransformDoubles = pt.get<int>("TransformDoubles");
+	TransformAttempts = pt.get<int>("TransformAttempts");
+	Accuracy = pt.get<double>("Accuracy");
+	UndiscountedHorizon = pt.get<int>("UndiscountedHorizon");
+	AutoExploration = pt.get<bool>("AutoExploration");
+}
 
 EXPERIMENT::EXPERIMENT(const SIMULATOR& real,
 	const SIMULATOR& simulator, const string& outputFile,
