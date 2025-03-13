@@ -1,7 +1,8 @@
 .PHONY: all, clean
 	
 PROGNAME := main
-	
+
+CPP := g++
 CPPFLAGS := -DUSE_BOOST
 CFLAGS := -O3
 CXXFLAGS += -O3 -std=c++11
@@ -33,10 +34,10 @@ OBJECTS = $(SOURCES:%.cpp=build/%.o)
 all : $(PROGNAME)
 	
 $(PROGNAME) : $(OBJECTS) Makefile
-	g++ -o $@ $(LDFLAGS) $(OBJECTS)
+	$(CPP) -o $@ $(OBJECTS) $(LDFLAGS)
 	
 build/%.o : %.cpp $(HEADERS) Makefile
-	g++ $(CXXFLAGS) $(CPPFLAGS) -c $(OUTPUT_OPTION) $<
+	$(CPP) $(CXXFLAGS) $(CPPFLAGS) -c $(OUTPUT_OPTION) $<
 	
 clean :
 	@echo "Clean."
