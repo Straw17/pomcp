@@ -178,7 +178,7 @@ void EXPERIMENT::MultiRun()
 void EXPERIMENT::DiscountedReturn()
 {
 	cout << "Main runs" << endl;
-	OutputFile << "Simulations\tRuns\tUndiscounted return\tUndiscounted error\tDiscounted return\tDiscounted error\tTime\n";
+	OutputFile << "Simulations,Runs,Undiscounted return,Undiscounted error,Discounted return,Discounted error,Time\n";
 
 	ExpParams.SimSteps = Simulator.GetHorizon(ExpParams.Accuracy, ExpParams.UndiscountedHorizon);
 	ExpParams.NumSteps = Real.GetHorizon(ExpParams.Accuracy, ExpParams.UndiscountedHorizon);
@@ -205,12 +205,12 @@ void EXPERIMENT::DiscountedReturn()
 			<< "Discounted return = " << Results.DiscountedReturn.GetMean()
 			<< " +- " << Results.DiscountedReturn.GetStdErr() << endl
 			<< "Time = " << Results.Time.GetMean() << endl;
-		OutputFile << SearchParams.NumSimulations << "\t"
-			<< Results.Time.GetCount() << "\t"
-			<< Results.UndiscountedReturn.GetMean() << "\t"
-			<< Results.UndiscountedReturn.GetStdErr() << "\t"
-			<< Results.DiscountedReturn.GetMean() << "\t"
-			<< Results.DiscountedReturn.GetStdErr() << "\t"
+		OutputFile << SearchParams.NumSimulations << ","
+			<< Results.Time.GetCount() << ","
+			<< Results.UndiscountedReturn.GetMean() << ","
+			<< Results.UndiscountedReturn.GetStdErr() << ","
+			<< Results.DiscountedReturn.GetMean() << ","
+			<< Results.DiscountedReturn.GetStdErr() << ","
 			<< Results.Time.GetMean() << endl;
 	}
 }
@@ -218,7 +218,7 @@ void EXPERIMENT::DiscountedReturn()
 void EXPERIMENT::AverageReward()
 {
 	cout << "Main runs" << endl;
-	OutputFile << "Simulations\tSteps\tAverage reward\tAverage time\n";
+	OutputFile << "Simulations,Steps,Average reward,Average time\n";
 
 	ExpParams.SimSteps = Simulator.GetHorizon(ExpParams.Accuracy, ExpParams.UndiscountedHorizon);
 
@@ -240,10 +240,10 @@ void EXPERIMENT::AverageReward()
 			<< "Average reward = " << Results.Reward.GetMean()
 			<< " +- " << Results.Reward.GetStdErr() << endl
 			<< "Average time = " << Results.Time.GetMean() / Results.Reward.GetCount() << endl;
-		OutputFile << SearchParams.NumSimulations << "\t"
-			<< Results.Reward.GetCount() << "\t"
-			<< Results.Reward.GetMean() << "\t"
-			<< Results.Reward.GetStdErr() << "\t"
+		OutputFile << SearchParams.NumSimulations << ","
+			<< Results.Reward.GetCount() << ","
+			<< Results.Reward.GetMean() << ","
+			<< Results.Reward.GetStdErr() << ","
 			<< Results.Time.GetMean() / Results.Reward.GetCount() << endl;
 		OutputFile.flush();
 	}
