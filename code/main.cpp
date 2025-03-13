@@ -9,7 +9,7 @@
 #include <boost/program_options.hpp>
 
 using namespace std;
-using namespace boost::program_options;
+namespace po = boost::program_options;
 
 int main(int argc, char* argv[])
 {
@@ -19,11 +19,21 @@ int main(int argc, char* argv[])
 	string problem, policy, horizonString;
 	string outputfile;
 
+	po::options_description desc("Allowed options");
+	desc.add_options()
+		("problem,p", po::value<string>()->default_value("battleship"), "set problem type")
+		("name,n", po::value<string>()->default_value("default"), "set test name")
+		("size,s", po::value<int>()->default_value(10), "set size of problem")
+		("number,num", po::value<int>()->default_value(10), "set number of objects in problem");
+
+	po::variables_map vm;
+	po::store(po::parse_command_line(argc, argv, desc), vm);
+	po::notify(vm);
+
     string testName;
-	int size, number = 1;
-	problem = argv[1];
-    horizonString = argv[2];
-	testName = argv[3];
+	int size, number;
+	problem = vm["problem"].as<string>();
+	testName = vm["name"].as<string>();
 
 	// set up real and simulated version of problem
 	SIMULATOR* real = 0;
@@ -40,26 +50,15 @@ int main(int argc, char* argv[])
 	}
 	else if(problem == "network")
 	{
+		size = vm["size"].as<int>();
+		number = vm["number"].as<int>();
 		real = new NETWORK(size, number);
 		simulator = new NETWORK(size, number);
 	}
 	else if(problem == "rocksample")
 	{
-        string problemSize = argv[4];
-		size = 7;
-		number = 8;
-		string arg;
-		arg = problemSize;
-		if(arg == "11")
-		{
-			size = 11;
-			number = 11;
-		}
-		else if(arg == "15")
-		{
-			size = 15;
-			number = 15;
-		}
+        size = vm["size"].as<int>();
+		number = vm["number"].as<int>();
 		real = new ROCKSAMPLE(size, number);
 		simulator = new ROCKSAMPLE(size, number);
 	}
@@ -78,17 +77,14 @@ int main(int argc, char* argv[])
 	searchParams = MCTS::PARAMS("config/mcts_config.json");
 	expParams = EXPERIMENT::PARAMS("config/experiment_config.json");
 	knowledge = SIMULATOR::KNOWLEDGE("config/knowledge_config.json");
-	searchParams.MaxDepth = stoi(horizonString); // maximum search depth
     simulator->SetKnowledge(knowledge);
 
 	// configure output file
-    outputfile = "output/" + problem;
-	if(problem == "rocksample") 
-	{
-        string problemSize = argv[4];
-		outputfile += problemSize;
+	if(testName == "default") {
+		outputfile = "/dev/null";
+	} else {
+    	outputfile = "output/" + problem + "_" + testName + ".txt";
 	}
-	outputfile += "_"+testName+"_horizon-"+horizonString+".txt";
     
 	// run experiment with given problem and parameters
 	EXPERIMENT experiment(*real,*simulator, outputfile, expParams, searchParams);
