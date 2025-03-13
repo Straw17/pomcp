@@ -24,7 +24,10 @@ int main(int argc, char* argv[])
 		("problem,p", po::value<string>()->default_value("battleship"), "set problem type")
 		("name,n", po::value<string>()->default_value("default"), "set test name")
 		("size,s", po::value<int>()->default_value(10), "set size of problem")
-		("number,num", po::value<int>()->default_value(10), "set number of objects in problem");
+		("number,num", po::value<int>()->default_value(10), "set number of objects in problem")
+		("experiment_config", po::value<string>()->default_value("experiment_config"), "set experiment config file path")
+		("knowledge_config", po::value<string>()->default_value("knowledge_config"), "set knowledge config file path")
+		("mcts_config", po::value<string>()->default_value("mcts_config"), "set MCTS config file path");
 
 	po::variables_map vm;
 	po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -34,6 +37,11 @@ int main(int argc, char* argv[])
 	int size, number;
 	problem = vm["problem"].as<string>();
 	testName = vm["name"].as<string>();
+
+	// set up parameters for search, initializing based on config files
+	searchParams = MCTS::PARAMS("config/" + vm["mcts_config"].as<string>() + ".json");
+	expParams = EXPERIMENT::PARAMS("config/" + vm["experiment_config"].as<string>() + ".json");
+	knowledge = SIMULATOR::KNOWLEDGE("config/" + vm["knowledge_config"].as<string>() + ".json");
 
 	// set up real and simulated version of problem
 	SIMULATOR* real = 0;
@@ -72,11 +80,8 @@ int main(int argc, char* argv[])
 		cout << "Unknown problem" << endl;
 		exit(1);
 	}
-    
-	// set up parameters for search
-	searchParams = MCTS::PARAMS("config/mcts_config.json");
-	expParams = EXPERIMENT::PARAMS("config/experiment_config.json");
-	knowledge = SIMULATOR::KNOWLEDGE("config/knowledge_config.json");
+
+	// add knowledge level
     simulator->SetKnowledge(knowledge);
 
 	// configure output file
