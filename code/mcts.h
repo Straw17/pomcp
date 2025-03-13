@@ -17,7 +17,15 @@ public:
 		// construct based on file
 		PARAMS(const std::string& filename);
 
-		int Verbose;
+		enum {
+			SILENT = 0, // no extra output
+			TREE = 1, // only output tree operations, like real actions and observations
+			RESULT = 2, // output results of each simulation runthrough
+			SIMULATION = 3, // output results of each simulation step
+			ROLLOUT = 4 // output results of each rollout step
+		};
+
+		int Verbose; // level of verbosity
 		int MaxDepth; // maximum tree depth (search horizon)
 		int NumSimulations; // number of simulations to perform
 		int NumStartStates; // number of initial start states to sample

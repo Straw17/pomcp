@@ -72,7 +72,7 @@ void EXPERIMENT::Run()
 	int t;
 
 	STATE* state = Real.CreateStartState();
-	if (SearchParams.Verbose >= 1)
+	if (SearchParams.Verbose >= SearchParams.TREE)
 		Real.DisplayState(*state, cout);
 
 	for (t = 0; t < ExpParams.NumSteps; t++)
@@ -86,7 +86,7 @@ void EXPERIMENT::Run()
 		undiscountedReturn += reward;
 		discountedReturn += reward * discount;
 		discount *= Real.GetDiscount();
-		if (SearchParams.Verbose >= 1)
+		if (SearchParams.Verbose >= SearchParams.TREE)
 		{
 			Real.DisplayAction(action, cout);
 			Real.DisplayState(*state, cout);
@@ -130,7 +130,7 @@ void EXPERIMENT::Run()
 			undiscountedReturn += reward;
 			discountedReturn += reward * discount;
 			discount *= Real.GetDiscount();
-			if (SearchParams.Verbose >= 1)
+			if (SearchParams.Verbose >= SearchParams.TREE)
 			{
 				Real.DisplayAction(action, cout);
 				Real.DisplayState(*state, cout);

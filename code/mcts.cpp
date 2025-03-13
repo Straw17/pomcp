@@ -81,13 +81,13 @@ bool MCTS::Update(int action, int observation, double reward)
 	VNODE* vnode = qnode.Child(observation);
 	if (vnode)
 	{
-		if (Params.Verbose >= 1)
+		if (Params.Verbose >= Params.TREE)
 			cout << "Matched " << vnode->Beliefs().GetNumSamples() << " states" << endl;
 		beliefs.Copy(vnode->Beliefs(), Simulator);
 	}
 	else
 	{
-		if (Params.Verbose >= 1)
+		if (Params.Verbose >= Params.TREE)
 			cout << "No matching node found" << endl;
 	}
 
@@ -99,7 +99,7 @@ bool MCTS::Update(int action, int observation, double reward)
 	if (beliefs.Empty() && (!vnode || vnode->Beliefs().Empty()))
 		return false;
 
-	if (Params.Verbose >= 1)
+	if (Params.Verbose >= Params.TREE)
 		Simulator.DisplayBeliefs(beliefs, cout);
 
 	// Find a state to initialise prior (only requires fully observed state)
@@ -172,7 +172,7 @@ void MCTS::UCTSearch()
 		STATE* state = Root->Beliefs().CreateSample(Simulator);
 		Simulator.Validate(*state);
 		Status.Phase = SIMULATOR::STATUS::TREE;
-		if (Params.Verbose >= 2)
+		if (Params.Verbose >= Params.RESULT)
 		{
 			cout << "Starting simulation" << endl;
 			Simulator.DisplayState(*state, cout);
@@ -184,9 +184,9 @@ void MCTS::UCTSearch()
 		StatTotalReward.Add(totalReward);
 		StatTreeDepth.Add(PeakTreeDepth);
 
-		if (Params.Verbose >= 2)
+		if (Params.Verbose >= Params.RESULT)
 			cout << "Total reward = " << totalReward << endl;
-		if (Params.Verbose >= 3)
+		if (Params.Verbose >= Params.SIMULATION)
 			DisplayValue(4, cout);
 
 		Simulator.FreeState(state);
@@ -225,7 +225,7 @@ double MCTS::SimulateQ(STATE& state, QNODE& qnode, int action)
 	assert(observation >= 0 && observation < Simulator.GetNumObservations());
 	History.Add(action, observation);
 
-	if (Params.Verbose >= 3)
+	if (Params.Verbose >= Params.SIMULATION)
 	{
 		Simulator.DisplayAction(action, cout);
 		Simulator.DisplayObservation(state, observation, cout);
@@ -269,7 +269,7 @@ VNODE* MCTS::ExpandNode(const STATE* state)
 	vnode->Value.Set(0, 0);
 	Simulator.Prior(state, History, vnode, Status);
 
-	if (Params.Verbose >= 2)
+	if (Params.Verbose >= Params.RESULT)
 	{
 		cout << "Expanding node: ";
 		History.Display(cout);
@@ -283,7 +283,7 @@ void MCTS::AddSample(VNODE* node, const STATE& state)
 {
 	STATE* sample = Simulator.Copy(state);
 	node->Beliefs().AddSample(sample);
-	if (Params.Verbose >= 2)
+	if (Params.Verbose >= Params.RESULT)
 	{
 		cout << "Adding sample:" << endl;
 		Simulator.DisplayState(*sample, cout);
@@ -342,7 +342,7 @@ int MCTS::GreedyUCB(VNODE* vnode, bool ucb) const
 double MCTS::Rollout(STATE& state)
 {
 	Status.Phase = SIMULATOR::STATUS::ROLLOUT;
-	if (Params.Verbose >= 3)
+	if (Params.Verbose >= Params.SIMULATION)
 		cout << "Starting rollout" << endl;
 
 	double totalReward = 0.0;
@@ -358,7 +358,7 @@ double MCTS::Rollout(STATE& state)
 		terminal = Simulator.Step(state, action, observation, reward);
 		History.Add(action, observation);
 
-		if (Params.Verbose >= 4)
+		if (Params.Verbose >= Params.ROLLOUT)
 		{
 			Simulator.DisplayAction(action, cout);
 			Simulator.DisplayObservation(state, observation, cout);
@@ -371,7 +371,7 @@ double MCTS::Rollout(STATE& state)
 	}
 
 	StatRolloutDepth.Add(numSteps);
-	if (Params.Verbose >= 3)
+	if (Params.Verbose >= Params.SIMULATION)
 		cout << "Ending rollout after " << numSteps
 		<< " steps, with total reward " << totalReward << endl;
 	return totalReward;
@@ -393,7 +393,7 @@ void MCTS::AddTransforms(VNODE* root, BELIEF_STATE& beliefs)
 		attempts++;
 	}
 
-	if (Params.Verbose >= 1)
+	if (Params.Verbose >= Params.TREE)
 	{
 		cout << "Created " << added << " local transformations out of "
 			<< attempts << " attempts" << endl;
@@ -449,14 +449,14 @@ void MCTS::ClearStatistics()
 
 void MCTS::DisplayStatistics(ostream& ostr) const
 {
-	if (Params.Verbose >= 1)
+	if (Params.Verbose >= Params.TREE)
 	{
 		StatTreeDepth.Print("Tree depth", ostr);
 		StatRolloutDepth.Print("Rollout depth", ostr);
 		StatTotalReward.Print("Total reward", ostr);
 	}
 
-	if (Params.Verbose >= 2)
+	if (Params.Verbose >= Params.RESULT)
 	{
 		ostr << "Policy after " << Params.NumSimulations << " simulations" << endl;
 		DisplayPolicy(6, ostr);
