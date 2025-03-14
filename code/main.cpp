@@ -88,7 +88,7 @@ int main(int argc, char* argv[])
 	if(testName == "default") {
 		outputfile = "/dev/null";
 	} else {
-    	outputfile = "output/" + problem + "_" + testName + ".csv";
+    	outputfile = "output/" + testName + ".csv";
 	}
     
 	// run experiment with given problem and parameters
